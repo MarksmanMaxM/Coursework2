@@ -1,20 +1,61 @@
+import static java.lang.Integer.*;
+
 public class ServiceEmployee {
 
 
-    public double sumSalaryPerMounth(Employee employee[]) {
+    public double sumSalaryPerMounthPerDepartment(Employee employee[], int numberDepartment) {
         double sum = 0;
+        int numberDep;
+
         for (int i = 0; i < employee.length; i++) {
-            sum += employee[i].getSalary();
+            numberDep = numberDep(employee[i]);
+
+            if (numberDep == numberDepartment) {
+                sum += employee[i].getSalary();
+            }
         }
+
         return sum;
     }
 
-    public int minSalary(Employee employee[]) {
-        double min = employee[0].getSalary();
-        int number = 0;
+    public double avrSalaryPerDepartment(Employee employee[], int numberDepartment) {
+        int numberDep;
+        int personPerDepartment = 0;
 
-        for (int i = 1; i < employee.length; i++) {
-            if (min > employee[i].getSalary()) {
+        for (int i = 0; i < employee.length; i++) {
+            numberDep = numberDep(employee[i]);
+
+            if (numberDep == numberDepartment) {
+                personPerDepartment++;
+            }
+        }
+        double avrSal = sumSalaryPerMounthPerDepartment(employee, numberDepartment) / personPerDepartment;
+        return avrSal;
+    }
+
+    public void changeSalary(Employee employee[], double index) {
+        for (int i = 0; i < employee.length; i++) {
+            employee[i].setSalary(employee[i].getSalary() + employee[i].getSalary() * index / 100);
+
+        }
+    }
+
+    public int minSalaryPerDepartment(Employee employee[], int numberDepartment) {
+        double min = 0;
+        int number = -1;
+        int numberDep;
+
+        for (int i = 0; i < employee.length; i++) {
+
+            numberDep = numberDep(employee[i]);
+
+            if (min == 0 && numberDep == numberDepartment) {
+                min = employee[i].getSalary();
+                number = i;
+                continue;
+            }
+
+            if (min > employee[i].getSalary() && numberDep == numberDepartment) {
                 min = employee[i].getSalary();
                 number = i;
             }
@@ -24,13 +65,22 @@ public class ServiceEmployee {
 
     }
 
+    public int maxSalaryPerDepartment(Employee employee[], int numberDepartment) {
+        double max = 0;
+        int number = -1;
+        int numberDep;
 
-    public int maxSalary(Employee employee[]) {
-        double max = employee[0].getSalary();
-        int number = 0;
+        for (int i = 0; i < employee.length; i++) {
 
-        for (int i = 1; i < employee.length; i++) {
-            if (max < employee[i].getSalary()) {
+            numberDep = numberDep(employee[i]);
+
+            if (max == 0 && numberDep == numberDepartment) {
+                max = employee[i].getSalary();
+                number = i;
+                continue;
+            }
+
+            if (max < employee[i].getSalary() && numberDep == numberDepartment) {
                 max = employee[i].getSalary();
                 number = i;
             }
@@ -40,9 +90,27 @@ public class ServiceEmployee {
 
     }
 
-    public double avrSalary(Employee employee[]) {
-        double avrSal = sumSalaryPerMounth(employee) / employee.length;
-        return avrSal;
+    public void changeSalaryDepartment(Employee employee[], double index, int numberDepartment) {
+        int numberDep;
+
+        for (int i = 0; i < employee.length; i++) {
+            numberDep = numberDep(employee[i]);
+
+            if (numberDep == numberDepartment) {
+                employee[i].setSalary(employee[i].getSalary() + employee[i].getSalary() * index / 100);
+            }
+
+        }
+    }
+
+    public int numberDep(Employee employee) {
+        String department;
+        int numberDep;
+        department = employee.getDepartment().substring(employee.getDepartment().length() - 1);
+        numberDep = parseInt(department);
+
+        return numberDep;
+
     }
 
 
