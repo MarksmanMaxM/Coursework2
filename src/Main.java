@@ -1,3 +1,5 @@
+import java.util.Scanner;
+
 public class Main {
     public static void main(String[] args) {
 
@@ -13,28 +15,67 @@ public class Main {
         employee[8] = new Employee("Потёмкина Ольга Ивановна", 175000, "Отдел 1");
         employee[9] = new Employee("Сидоров Иван Иванович", 250000, "Отдел 1");
 
+        ServiceEmployee serviceEmployee = new ServiceEmployee();
+
+        System.out.println("Введите на сколько процентов проиндексировать зарплату: ");
+        Scanner scanner = new Scanner(System.in);
+        double index = scanner.nextDouble();
+        serviceEmployee.changeSalary(employee, index);
+
+        System.out.println("Изменённая зарплата: ");
         for (Employee emp1 : employee) {
             System.out.println(emp1.toString());
         }
 
-        ServiceEmployee serviceEmployee = new ServiceEmployee();
-        System.out.printf("ФОТ за месяц: ");
-        System.out.println(serviceEmployee.sumSalaryPerMounth(employee));
+        System.out.println("Введите номер отдела: ");
+        int numberDepartment = scanner.nextInt();
 
-        int numberMinSalary = serviceEmployee.minSalary(employee);
-        System.out.printf("Минимальная зарплата: ");
-        System.out.println(employee[numberMinSalary].toString());
+        System.out.println("Минимальная зарплата в отделе " + numberDepartment + " : " + employee[serviceEmployee.minSalaryPerDepartment(employee, numberDepartment)].getSalary());
+        System.out.println("Максимальная зарплата в отделе " + numberDepartment + " : " + employee[serviceEmployee.maxSalaryPerDepartment(employee, numberDepartment)].getSalary());
+        System.out.println("ФОТ отдела " + numberDepartment + " в месяц: " + serviceEmployee.sumSalaryPerMounthPerDepartment(employee, numberDepartment));
+        System.out.println("Средняя зарплата отдела " + numberDepartment + " : " + serviceEmployee.avrSalaryPerDepartment(employee, numberDepartment));
 
-        int numberMaxSalary = serviceEmployee.maxSalary(employee);
-        System.out.printf("Максимальная зарплата: ");
-        System.out.println(employee[numberMaxSalary].toString());
-
-        System.out.printf("Средняя зарплата за месяц: " + serviceEmployee.avrSalary(employee) + "\n");
-
-        System.out.println("Список сотрудников: ");
+        System.out.println("Введите на сколько проиндексировать зарплату работников отдела " + numberDepartment + ": ");
+        double indexDep = scanner.nextInt();
+        serviceEmployee.changeSalaryDepartment(employee, indexDep, numberDepartment);
+        System.out.println("Изменённая зарплата: ");
         for (Employee emp1 : employee) {
-            System.out.println(emp1.getFullName());
+            System.out.println(emp1.toString());
         }
+
+        System.out.println("Введите максимальную зарплату: ");
+        double salaryMax = scanner.nextDouble();
+        System.out.println("Зарплата меньше " + salaryMax + " у сотрудников:");
+        for (Employee emp1 : employee) {
+            if (emp1.getSalary() < salaryMax) {
+                System.out.println("ФИО: " + emp1.getFullName() + " id " + emp1.getId() + ", з/п: " + emp1.getSalary());
+            }
+
+        }
+
+        System.out.println("Введите минимальную зарплату: ");
+        double salaryMin = scanner.nextDouble();
+        System.out.println("Зарплата больше " + salaryMin + " у сотрудников:");
+        for (Employee emp1 : employee) {
+            if (emp1.getSalary() > salaryMin) {
+                System.out.println("ФИО: " + emp1.getFullName() + " id " + emp1.getId() + ", з/п: " + emp1.getSalary());
+            }
+
+        }
+
+
+//
+//        2. Получить в качестве параметра номер отдела (1–5) и найти (всего 6 методов):
+//        1. Сотрудника с минимальной зарплатой.
+//        2. Сотрудника с максимальной зарплатой.
+//        3. Сумму затрат на зарплату по отделу.
+//        4. Среднюю зарплату по отделу (учесть, что количество людей в отделе отличается от employees.length).
+//        5. Проиндексировать зарплату всех сотрудников отдела на процент, который приходит в качестве параметра.
+//        6. Напечатать всех сотрудников отдела (все данные, кроме отдела).
+//        3. Получить в качестве параметра число и найти:
+//        1. Всех сотрудников с зарплатой меньше числа (вывести id, Ф. И. О. и зарплатой в консоль).
+//        2. Всех сотрудников с зарплатой больше (или равно) числа (вывести id, Ф. И. О. и зарплатой в консоль).
+
 
 
     }
